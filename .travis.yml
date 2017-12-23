@@ -1,0 +1,26 @@
+language: php
+
+php:
+ - 7.1
+ - 7.2
+
+matrix:
+ include:
+  - php: 7.1
+    env: COVERAGE=yes
+
+cache:
+ directories:
+  - $HOME/.composer/cache
+
+before_script:
+ - composer self-update
+
+install:
+ - composer install --prefer-source
+
+script:
+ - if [[ $COVERAGE == yes ]]; then composer check-code; fi
+
+notifications:
+ email: false
