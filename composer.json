@@ -1,0 +1,26 @@
+{
+  "name": "functional-php/fantasy-land",
+  "description": "Specification for interoperability of common algebraic structures in PHP",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Gabriel Habryn",
+      "email": "widmogrod+github@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "friendsofphp/php-cs-fixer": "^2"
+  },
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "FunctionalPHP\\": "./src"
+    }
+  },
+  "scripts": {
+    "fix-code": "php-cs-fixer fix --allow-risky=yes",
+    "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
+  }
+}
