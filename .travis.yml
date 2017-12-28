@@ -20,6 +20,8 @@ install:
  - composer install --prefer-source
 
 script:
+ - composer test
+ - composer check-cod
  - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 notifications:
