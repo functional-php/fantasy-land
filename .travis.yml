@@ -21,7 +21,6 @@ install:
 
 script:
  - composer test
- - composer check-code
  - if [[ $COVERAGE == yes ]]; then composer check-code; fi
 
 notifications:
