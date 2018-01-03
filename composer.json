@@ -13,7 +13,9 @@
     "php": ">=7.1"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2"
+    "friendsofphp/php-cs-fixer": "^2",
+    "phpunit/phpunit": "^5",
+    "giorgiosironi/eris": "^0.9"
   },
   "prefer-stable": true,
   "autoload": {
@@ -22,6 +24,7 @@
     }
   },
   "scripts": {
+    "test": "phpunit --no-coverage",
     "fix-code": "php-cs-fixer fix --allow-risky=yes",
     "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
   }
