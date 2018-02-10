@@ -11,7 +11,7 @@ interface Chain extends Apply
      *
      * @param callable $function
      *
-     * @return self
+     * @return Chain
      */
     public function bind(callable $function);
 }

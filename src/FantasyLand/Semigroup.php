@@ -9,8 +9,8 @@ interface Semigroup
     /**
      * Return result of applying one semigroup with another.
      *
-     * @param  self $value
-     * @return self
+     * @param  Semigroup $value
+     * @return Semigroup
      */
-    public function concat(self $value): Semigroup;
+    public function concat(Semigroup $value): Semigroup;
 }
