@@ -11,7 +11,7 @@ interface Functor
      *
      * @param callable $function
      *
-     * @return self
+     * @return Functor
      */
-    public function map(callable $function): self;
+    public function map(callable $function): Functor;
 }
