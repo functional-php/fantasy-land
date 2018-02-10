@@ -8,7 +8,6 @@ use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-
 class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,8 +19,7 @@ class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
         Applicative $w,
         callable $f,
         $x
-    )
-    {
+    ) {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             Identity::of,

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace FunctionalPHP\FantasyLand\Helpful;
 
 use FunctionalPHP\FantasyLand\Monoid;
+use function FunctionalPHP\FantasyLand\concat;
+use function FunctionalPHP\FantasyLand\emptyy;
 
 class MonoidLaws
 {
@@ -23,20 +25,20 @@ class MonoidLaws
         Monoid $z
     ) {
         $assertEqual(
-            $x->concat($x::mempty()),
+            concat($x, emptyy($x)),
             $x,
             'Right identity'
         );
 
         $assertEqual(
-            $x::mempty()->concat($x),
+            concat(emptyy($x), $x),
             $x,
             'Left identity'
         );
 
         $assertEqual(
-            $x->concat($y->concat($z)),
-            $x->concat($y)->concat($z),
+            concat($x, concat($y, $z)),
+            concat(concat($x, $y), $z),
             'Associativity'
         );
     }

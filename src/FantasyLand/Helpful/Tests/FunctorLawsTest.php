@@ -8,7 +8,6 @@ use FunctionalPHP\FantasyLand\Functor;
 use FunctionalPHP\FantasyLand\Helpful\FunctorLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-
 class FunctorLawsTest extends \PHPUnit_Framework_TestCase
 {
     /**

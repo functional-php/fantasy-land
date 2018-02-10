@@ -7,7 +7,6 @@ namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-
 class MonadLawsTest extends \PHPUnit_Framework_TestCase
 {
     /**
