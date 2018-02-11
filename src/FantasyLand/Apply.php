@@ -9,7 +9,7 @@ interface Apply extends Functor
     /**
      * @param Apply $b
      *
-     * @return self
+     * @return Apply
      */
-    public function ap(self $b): self;
+    public function ap(Apply $b): Apply;
 }
