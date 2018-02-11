@@ -12,5 +12,5 @@ interface Semigroup
      * @param  self $value
      * @return self
      */
-    public function concat(self $value): self;
+    public function concat(self $value): Semigroup;
 }

@@ -21,7 +21,10 @@
   "autoload": {
     "psr-4": {
       "FunctionalPHP\\": "./src"
-    }
+    },
+    "files": [
+      "src/FantasyLand/functions.php"
+    ]
   },
   "scripts": {
     "test": "phpunit --no-coverage",
