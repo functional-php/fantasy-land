@@ -1,4 +1,4 @@
-# FantasyLand
+# FantasyLand [![Build Status](https://travis-ci.org/functional-php/fantasy-land.svg?branch=master)](https://travis-ci.org/functional-php/fantasy-land)
 ## Introduction
 
 Specification for interoperability of common algebraic structures in PHP.
