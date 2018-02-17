@@ -1,10 +1,10 @@
 # FantasyLand [![Build Status](https://travis-ci.org/functional-php/fantasy-land.svg?branch=master)](https://travis-ci.org/functional-php/fantasy-land)
 ## Introduction
 
-Specification for interoperability of common algebraic structures in PHP.
-The inspiration for this package is taken from fantastic project [fantasyland](https://github.com/fantasyland/fantasy-land) `[A]`.
+This project specifies interoperability of common algebraic structures in PHP.
+The inspiration for this package is the fantastic [fantasyland](https://github.com/fantasyland/fantasy-land) project `[A]`.
 
-You can find following algebraic structures:
+The repository contains the following algebraic structures:
 - [Setoid](src/FantasyLand/Setoid.php)
 - [Semigroup](src/FantasyLand/Semigroup.php)
 - [Monoid](src/FantasyLand/Monoid.php)
@@ -17,10 +17,9 @@ You can find following algebraic structures:
 - [Monad](src/FantasyLand/Monad.php)
 - [Pointed](src/FantasyLand/Pointed.php)
 
-Each algebraic structure must obey some laws. 
-To simplify verification of those laws, 
-this project provides encapsulated property tests, 
-that can be used to easily verify correctness of a newly implemented structures. 
+Each of those algebraic structures must obey some laws.
+In order to simplify their verification, the project provides encapsulated property tests.
+They can be used to easily verify the correctness of newly implemented structures.
 
 - [Setoid Laws](src/FantasyLand/Helpful/SetoidLaws.php)
 - [Monoid Laws](src/FantasyLand/Helpful/MonoidLaws.php)
@@ -28,7 +27,7 @@ that can be used to easily verify correctness of a newly implemented structures.
 - [Applicative Laws](src/FantasyLand/Helpful/ApplicativeLaws.php)
 - [Monad Laws](src/FantasyLand/Helpful/MonadLaws.php)
 
-Examples how to use property tests can be found in the [directory of examples](src/FantasyLand/Helpful/Tests)
+You can find exemples on how to use those tests in the [directory of examples](src/FantasyLand/Helpful/Tests)
 
 ## Projects that are using FantasyLand
 - [widmogrod/php-functional](https://github.com/widmogrod/php-functional)
