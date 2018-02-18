@@ -29,6 +29,11 @@ They can be used to easily verify the correctness of newly implemented structure
 
 You can find exemples on how to use those tests in the [directory of examples](src/FantasyLand/Helpful/Tests)
 
+## Installation
+```
+composer require functional-php/fantasy-land:^1
+```
+
 ## Projects that are using FantasyLand
 - [widmogrod/php-functional](https://github.com/widmogrod/php-functional)
 
