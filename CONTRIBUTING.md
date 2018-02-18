@@ -11,7 +11,7 @@
 
 ## Code style
 Code style rules are defined and automated via [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) 
-to automatically applied them to code base please run:
+to automatically apply them to code base please run:
 ```
 composer fix
 ```
