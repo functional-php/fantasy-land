@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand;
 
+/**
+ * @template T
+ * @template-extends Functor<T>
+ */
 interface Traversable extends Functor
 {
     /**
@@ -11,9 +15,13 @@ interface Traversable extends Functor
      *
      * Where the `a` is value inside of container.
      *
-     * @param callable $fn (a -> f b)
+     * @template A as Applicative
+     * @psalm-param callable(T): A $function
+     * @psalm-return A
+     *
+     * @param callable $function (a -> f b)
      *
      * @return Applicative f (t b)
      */
-    public function traverse(callable $fn);
+    public function traverse(callable $function);
 }

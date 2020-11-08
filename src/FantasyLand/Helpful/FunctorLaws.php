@@ -14,6 +14,11 @@ class FunctorLaws
     /**
      * Generic test to verify if a type obey the functor laws.
      *
+     * @template T
+     * @psalm-param callable(T): T $f
+     * @psalm-param callable(T): T $g
+     * @psalm-param Functor<T> $x
+     *
      * @param callable $assertEqual Asserting function (Functor $f1, Functor $f2, $message)
      * @param callable $f           (a -> b)
      * @param callable $g           (a -> b)
@@ -24,7 +29,7 @@ class FunctorLaws
         callable $f,
         callable $g,
         Functor $x
-    ) {
+    ): void {
         // identity: fmap id  ==  id
         $assertEqual(
             map(identity, $x),

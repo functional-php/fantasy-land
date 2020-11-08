@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.1.1@16bfbd9224698bd738c665f33039fade2a1a3977">
+  <file src="src/FantasyLand/Helpful/ApplicativeLaws.php">
+    <DeprecatedFunction occurrences="1">
+      <code>curryN(2, compose)</code>
+    </DeprecatedFunction>
+  </file>
+  <file src="src/FantasyLand/Useful/Identity.php">
+    <DeprecatedInterface occurrences="1">
+      <code>Identity</code>
+    </DeprecatedInterface>
+  </file>
+  <file src="src/FantasyLand/functions.php">
+    <DeprecatedFunction occurrences="1">
+      <code>curryN($argsLeft, $function, push_($args, $argsNext))</code>
+    </DeprecatedFunction>
+  </file>
+</files>

@@ -6,6 +6,14 @@ namespace FunctionalPHP\FantasyLand;
 
 const identity = 'FunctionalPHP\FantasyLand\identity';
 
+/**
+ * @template T
+ * @psalm-param T $a
+ * @psalm-return T
+ *
+ * @param  mixed $a
+ * @return mixed
+ */
 function identity($a)
 {
     return $a;
@@ -20,6 +28,12 @@ function equal(Setoid $a, Setoid $b): bool
 
 const concat = 'FunctionalPHP\FantasyLand\concat';
 
+/**
+ * @template T
+ * @psalm-param Semigroup<T> $a
+ * @psalm-param Semigroup<T> $b
+ * @psalm-return Semigroup<T>
+ */
 function concat(Semigroup $a, Semigroup $b): Semigroup
 {
     return $a->concat($b);
@@ -27,6 +41,11 @@ function concat(Semigroup $a, Semigroup $b): Semigroup
 
 const emptyy = 'FunctionalPHP\FantasyLand\emptyy';
 
+/**
+ * @template T
+ * @psalm-param Monoid<T> $a
+ * @psalm-return Monoid<T>
+ */
 function emptyy(Monoid $a): Monoid
 {
     return $a::mempty();
@@ -41,16 +60,30 @@ const map = 'FunctionalPHP\FantasyLand\map';
 /**
  * map :: Functor f => (a -> b) -> f a -> f b
  *
- * @return mixed|\Closure
+ * @template T
+ * @template U
+ * @template R as Functor<T>|null
  *
- * @param callable $transformation
- * @param Functor  $value
+ * @psalm-param callable(T): U $function
+ * @psalm-param R $value
+ * @psalm-return (R is null ? (callable(Functor<T>): Functor<U>) : Functor<U>)
+ *
+ * @param  callable       $function
+ * @param  null|Functor   $value
+ * @return mixed|callable
  */
-function map(callable $transformation, Functor $value = null)
+function map(callable $function, Functor $value = null)
 {
-    return curryN(2, function (callable $transformation, Functor $value) {
-        return $value->map($transformation);
-    })(...func_get_args());
+    return null !== $value
+        ? $value->map($function)
+        :
+        /**
+         * @psalm-param Functor<T> $value
+         * @param Functor $value
+         */
+        function (Functor $value) use ($function): Functor {
+            return $value->map($function);
+        };
 }
 
 /**
@@ -61,16 +94,30 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
 /**
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
- * @return mixed|\Closure
+ * @template T
+ * @template U of Chain
+ * @template V as Monad<T>|null
  *
- * @param callable $function
- * @param Monad    $value
+ * @psalm-param callable(T): U $function
+ * @psalm-param V $value
+ * @psalm-return (V is null ? (callable(Monad<T>): U) : U)
+ *
+ * @param  callable       $function
+ * @param  null|Monad     $value
+ * @return mixed|callable
  */
 function bind(callable $function, Monad $value = null)
 {
-    return curryN(2, function (callable $function, Monad $value) {
-        return $value->bind($function);
-    })(...func_get_args());
+    return null !== $value
+        ? $value->bind($function)
+        :
+        /**
+         * @psalm-param Monad<T> $value
+         * @psalm-return U
+         */
+        function (Monad $value) use ($function): Chain {
+            return $value->bind($function);
+        };
 }
 
 /**
@@ -78,13 +125,20 @@ function bind(callable $function, Monad $value = null)
  */
 const compose = 'FunctionalPHP\FantasyLand\compose';
 
+/**
+ * @template T
+ * @template F
+ * @template G
+ * @psalm-param callable(G): F $f
+ * @psalm-param callable(T): G $g
+ * @psalm-return callable(T): F
+ */
 function compose(callable $f, callable $g): callable
 {
     return function ($x) use ($f, $g) {
         return $f($g($x));
     };
 }
-
 
 /**
  * @var callable
@@ -94,37 +148,63 @@ const applicator = 'FunctionalPHP\FantasyLand\applicator';
 /**
  * applicator :: a -> (a -> b) -> b
  *
- * @param mixed    $x
- * @param callable $f
+ * @todo Improve type check for callable return type
+ * @template T
+ * @template V
+ * @psalm-param T $x
+ * @psalm-param null|callable(T): V $function
+ * @psalm-return (func_num_args() is 1 ? (callable(callable(T): mixed): mixed) : V)
+ *
+ * @param mixed         $x
+ * @param null|callable $function
  *
  * @return mixed
  */
-function applicator($x, callable $f = null)
+function applicator($x, callable $function = null)
 {
-    return curryN(2, function ($x, callable $f) {
-        return $f($x);
-    })(...func_get_args());
+    return null !== $function
+        ? $function($x)
+        :
+        /**
+         * @psalm-param callable(T): V $function
+         * @psalm-return V
+         * @param  callable $function
+         * @return mixed
+         */
+        function (callable $function) use ($x) {
+            return $function($x);
+        };
 }
-
 
 /**
  * Curry function
  *
- * @param int      $numberOfArguments
- * @param callable $function
- * @param array    $args
+ * @deprecated
  *
+ * @template T
+ * @template A of list<T>|array<array-key, T>
+ * @psalm-param A $args
+ * @psalm-return callable
+ *
+ * @param  int      $numberOfArguments
+ * @param  array    $args
+ * @param  callable $function
  * @return callable
  */
-function curryN($numberOfArguments, callable $function, array $args = [])
+function curryN(int $numberOfArguments, callable $function, array $args = []): callable
 {
-    return function (...$argsNext) use ($numberOfArguments, $function, $args) {
-        $argsLeft = $numberOfArguments - func_num_args();
+    return
+        /**
+         * @param  T     ...$argsNext
+         * @return mixed
+         */
+        function (...$argsNext) use ($numberOfArguments, $function, $args) {
+            $argsLeft = $numberOfArguments - func_num_args();
 
-        return $argsLeft <= 0
-            ? $function(...push_($args, $argsNext))
-            : curryN($argsLeft, $function, push_($args, $argsNext));
-    };
+            return $argsLeft <= 0
+                ? $function(...push_($args, $argsNext))
+                : curryN($argsLeft, $function, push_($args, $argsNext));
+        };
 }
 
 /**
@@ -137,6 +217,12 @@ const push_ = 'FunctionalPHP\FantasyLand\push_';
  *
  * Append array with values.
  * Mutation on the road! watch out!!
+ *
+ * @template T
+ * @template U
+ * @psalm-param array<array-key, T> $array
+ * @psalm-param array<array-key, U> $values
+ * @psalm-return array<array-key, T|U>
  *
  * @param array $array
  * @param array $values

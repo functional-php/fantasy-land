@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 
-use Eris\Generator;
-use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Monoid;
 use FunctionalPHP\FantasyLand\Semigroup;
+use PHPUnit\Framework\TestCase;
 
+/**
+ * @template-implements Monoid<string>
+ */
 class StringMonoid implements Monoid
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {
@@ -39,12 +38,12 @@ class StringMonoid implements Monoid
     }
 }
 
+/**
+ * @template-implements Monoid<string>
+ */
 class NotAStringMonoid implements Monoid
 {
-    /**
-     * @var string
-     */
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {
@@ -68,42 +67,32 @@ class NotAStringMonoid implements Monoid
     }
 }
 
-class MonoidLawsTest extends \PHPUnit_Framework_TestCase
+class MonoidLawsTest extends TestCase
 {
-    use TestTrait;
-
-    public function test_it_should_obay_monoid_laws()
+    public function test_it_should_obay_monoid_laws(): void
     {
-        $this->forAll(
-            Generator\char(),
-            Generator\string(),
-            Generator\names()
-        )->then(function (string $a, string $b, string $c) {
-            MonoidLaws::test(
-                [$this, 'assertEquals'],
-                new StringMonoid($a),
-                new StringMonoid($b),
-                new StringMonoid($c)
-            );
-        });
+        MonoidLaws::test(
+            [$this, 'assertEquals'],
+            new StringMonoid('foo'),
+            new StringMonoid('bar'),
+            new StringMonoid('baz')
+        );
     }
 
-    /**
-     * @expectedException \DomainException
-     */
-    public function test_it_should_fail_monoid_laws()
+    public function test_it_should_fail_monoid_laws(): void
     {
-        $this->forAll(
-            Generator\char(),
-            Generator\string(),
-            Generator\names()
-        )->then(function (string $a, string $b, string $c) {
-            MonoidLaws::test(
-                [$this, 'assertEquals'],
-                new NotAStringMonoid($a),
-                new NotAStringMonoid($b),
-                new NotAStringMonoid($c)
-            );
-        });
+        $result = true;
+        $assert = function (Monoid $a, Monoid $b) use (&$result): void {
+            $result = $result && $a == $b;
+        };
+
+        MonoidLaws::test(
+            $assert,
+            new NotAStringMonoid('foo'),
+            new NotAStringMonoid('bar'),
+            new NotAStringMonoid('baz')
+        );
+
+        $this->assertFalse($result);
     }
 }

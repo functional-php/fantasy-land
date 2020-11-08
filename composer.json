@@ -1,34 +1,44 @@
 {
-  "name": "functional-php/fantasy-land",
-  "description": "Specification for interoperability of common algebraic structures in PHP",
-  "type": "library",
-  "license": "BSD-3-Clause",
-  "authors": [
-    {
-      "name": "Gabriel Habryn",
-      "email": "widmogrod+github@gmail.com"
-    }
-  ],
-  "require": {
-    "php": ">=7.1"
-  },
-  "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2",
-    "phpunit/phpunit": "^5",
-    "giorgiosironi/eris": "^0.9"
-  },
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "FunctionalPHP\\": "./src"
+    "name": "functional-php/fantasy-land",
+    "description": "Specification for interoperability of common algebraic structures in PHP",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Gabriel Habryn",
+            "email": "widmogrod+github@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0"
     },
-    "files": [
-      "src/FantasyLand/functions.php"
-    ]
-  },
-  "scripts": {
-    "test": "phpunit --no-coverage",
-    "fix-code": "php-cs-fixer fix --allow-risky=yes",
-    "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
-  }
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.0",
+        "phpunit/phpunit": "^9.4",
+        "vimeo/psalm": "^4.1",
+        "codeception/codeception": "^4.1",
+        "codeception/module-cli": "^1.0",
+        "codeception/module-filesystem": "^1.0",
+        "weirdan/codeception-psalm-module": "^0.11.0"
+    },
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "FunctionalPHP\\": "./src"
+        },
+        "files": [
+            "src/FantasyLand/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FunctionalPHP\\FantasyLand\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --no-coverage",
+        "analyse": "psalm",
+        "fix-code": "php-cs-fixer fix --allow-risky=yes",
+        "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes"
+    }
 }

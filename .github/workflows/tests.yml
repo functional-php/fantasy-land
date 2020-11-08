@@ -1,0 +1,71 @@
+name: "Tests"
+
+on:
+  pull_request:
+    branches:
+      - "*.x"
+      - "master"
+  push:
+    branches:
+      - "*"
+      - "master"
+  schedule:
+    - cron: "0 9 * * 1"
+
+jobs:
+  phpunit:
+    name: "PHPUnit"
+    runs-on: "ubuntu-20.04"
+
+    strategy:
+      matrix:
+        php-version:
+          - "7.4"
+          - "8.0"
+        codestyle:
+          - "false"
+        analyse:
+          - "false"
+        include:
+          - php-version: "7.4"
+            codestyle: "true"
+            analyse: true
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: 2
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "pcov"
+
+      - name: "Cache dependencies installed with composer"
+        uses: "actions/cache@v2"
+        with:
+          path: "~/.composer/cache"
+          key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+          restore-keys: "php-${{ matrix.php-version }}-composer-locked-"
+
+      - name: "Install dependencies with composer"
+        run: "composer update --no-interaction --no-progress --no-suggest --prefer-dist"
+        if: "${{ matrix.php-version != '8.0' }}"
+
+      - name: "Install dependencies with composer --ignore-platform-req"
+        run: "composer update --no-interaction --no-progress --no-suggest --prefer-dist --ignore-platform-req=php"
+        if: "${{ matrix.php-version == '8.0' }}"
+
+      - name: "Run PHPUnit"
+        run: "vendor/bin/phpunit"
+        if: "${{ matrix.coverage != 'true' }}"
+
+      - name: "Run code style check"
+        run: "composer check-code"
+        if: "${{ matrix.codestyle == 'true' }}"
+
+      - name: "Run static analyse"
+        run: "composer analyse"
+        if: "${{ matrix.analyse == 'true' }}"
