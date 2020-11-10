@@ -20,7 +20,7 @@ Feature: Traversable
     When I run psalm
     Then I see these errors
       | Type  | Message |
-      | Trace | $value: FakeMonad<int> |
+      | Trace | $value: FunctionalPHP\FantasyLand\Applicative<FunctionalPHP\FantasyLand\Traversable<int>> |
     And I see no other errors
 
   Scenario: Asserting traverse should throw error on function not returning Applicative
@@ -35,7 +35,7 @@ Feature: Traversable
     When I run psalm
     Then I see these errors
       | Type  | Message |
-      | InvalidArgument | Argument 1 of FakeTraversable::traverse expects callable(string):FunctionalPHP\FantasyLand\Applicative, impure-Closure(string):int provided |
+      | InvalidArgument |  Argument 1 of FakeTraversable::traverse expects callable(string):FunctionalPHP\FantasyLand\Applicative<mixed>, impure-Closure(string):int provided |
     And I see no other errors
 
   Scenario: Asserting traverse should throw error on function not accepting Traversable type
