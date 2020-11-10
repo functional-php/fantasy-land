@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class StringSetoid implements Setoid
 {
-    private string $value;
+    private $value;
 
     public function __construct(string $value)
     {
