@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 require __DIR__ . '/vendor/autoload.php';
 
-use FunctionalPHP\FantasyLand\Useful\Identity;
 use FunctionalPHP\FantasyLand as f;
 
 $f = function (int $a): int {
