@@ -81,7 +81,7 @@ class FakeMonad implements f\Monad
   }
 
   /** @psalm-suppress InvalidReturnType */
-  public function ap(\FunctionalPHP\FantasyLand\Apply $b): \FunctionalPHP\FantasyLand\Apply
+  public function ap(f\Apply $b): f\Apply
   {
   }
 
@@ -91,14 +91,80 @@ class FakeMonad implements f\Monad
   }
 
   /** @psalm-suppress InvalidReturnType */
-  public function map(callable $function): \FunctionalPHP\FantasyLand\Functor
+  public function map(callable $function): f\Functor
   {
   }
 
+  /** @psalm-suppress InvalidReturnType */
   public static function of($value)
   {
-      return new FakeMonad($value);
   }
+}
+
+/**
+ * @template T
+ * @template-implements f\Foldable<T>
+ */
+class FakeFoldable implements f\Foldable
+{
+  /**
+   * @psalm-param T $value
+   */
+  public function __construct($value)
+  {
+  }
+  
+  /** @psalm-suppress InvalidReturnType */
+  public function reduce(callable $function, $accumulator)
+  {
+  }
+}
+
+/**
+ * @template T
+ * @template-implements f\Monoid<T>
+ */
+class FakeMonoid implements f\Monoid
+{
+  /**
+   * @psalm-param T $value
+   */
+  public function __construct($value)
+  {
+  }
+  
+  /** @psalm-suppress InvalidReturnType */
+  public static function mempty()
+  {
+  }
+  
+  /** @psalm-suppress InvalidReturnType */
+  public function concat(f\Semigroup $value): f\Semigroup
+  {
+  }
+}
+
+/**
+ * @template T
+ * @template-implements f\Traversable<T>
+ */
+class FakeTraversable implements f\Traversable
+{
+    /**
+     * @psalm-param T $value
+     */
+    public function __construct($value)
+    {
+    }
+    
+    /** @psalm-suppress InvalidReturnType */
+    public function map(callable $function): f\Functor
+    {
+    }
+  
+    /** @psalm-suppress InvalidReturnType */
+    public function traverse(callable $function)
+    {}
 }
 
 CODE;

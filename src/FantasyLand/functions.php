@@ -168,8 +168,6 @@ function applicator($x, callable $function = null)
         /**
          * @psalm-param callable(T): V $function
          * @psalm-return V
-         * @param  callable $function
-         * @return mixed
          */
         function (callable $function) use ($x) {
             return $function($x);
@@ -195,8 +193,8 @@ function curryN(int $numberOfArguments, callable $function, array $args = []): c
 {
     return
         /**
-         * @param  T     ...$argsNext
-         * @return mixed
+         * @psalm-param T ...$argsNext
+         * @psalm-return mixed
          */
         function (...$argsNext) use ($numberOfArguments, $function, $args) {
             $argsLeft = $numberOfArguments - func_num_args();

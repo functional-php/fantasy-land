@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FunctionalPHP\FantasyLand\Useful;
 
 use FunctionalPHP\FantasyLand;
+use LogicException;
 
 /**
  * @template T
@@ -61,17 +62,18 @@ class Identity implements FantasyLand\Monad
      * @template F of callable(U): R
      * @psalm-param FantasyLand\Apply<U> $applicative
      * @psalm-return (T is F ? Identity<R> : never-return)
+     * @throws LogicException
      */
     public function ap(FantasyLand\Apply $applicative): FantasyLand\Apply
     {
         $function = $this->value;
 
         if (! $applicative instanceof self) {
-            throw new \LogicException(sprintf('Applicative must be an instance of %s', self::class));
+            throw new LogicException(sprintf('Applicative must be an instance of %s', self::class));
         }
 
         if (! is_callable($function)) {
-            throw new \LogicException(sprintf('Applicative can only be called on an instance of %s<callable(a): b>', self::class));
+            throw new LogicException(sprintf('Applicative can only be called on an instance of %s<callable(a): b>', self::class));
         }
 
         /** @psalm-var F $function */

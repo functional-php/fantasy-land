@@ -9,7 +9,8 @@ namespace FunctionalPHP\FantasyLand;
  * @template-extends Apply<T>
  */
 interface Applicative extends
-    Apply
+    Apply,
+    Pointed
 {
     /**
      * Put $value in default minimal context.
@@ -17,9 +18,6 @@ interface Applicative extends
      * @template U
      * @psalm-param U $value
      * @psalm-return Applicative<U>
-     *
-     * @param  mixed $value
-     * @return mixed
      */
     public static function of($value);
 }
