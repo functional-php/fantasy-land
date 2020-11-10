@@ -12,7 +12,6 @@ interface Semigroup
     /**
      * Return result of applying one semigroup with another.
      *
-     * @template T
      * @psalm-param Semigroup<T> $value
      * @psalm-return Semigroup<T>
      *
