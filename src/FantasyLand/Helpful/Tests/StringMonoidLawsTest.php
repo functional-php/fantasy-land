@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StringMonoid implements Monoid
 {
-    private string $value;
+    private $value;
 
     public function __construct(string $value)
     {
@@ -43,7 +43,7 @@ class StringMonoid implements Monoid
  */
 class NotAStringMonoid implements Monoid
 {
-    private string $value;
+    private $value;
 
     public function __construct(string $value)
     {
