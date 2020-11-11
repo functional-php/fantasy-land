@@ -7,7 +7,7 @@ Feature: applicator
     Given I have the default psalm configuration
     And I have the default code preamble
 
-  Scenario: Asserting psalm recognizes return type
+  Scenario: Asserting psalm does not recognizes return type
     Given I have the following code
       """
       $ap = function (string $a): int { return strlen($a); };

@@ -67,3 +67,19 @@ Feature: Monad
       | Type  | Message |
       | Trace | $value: FakeMonad<int(2)>                                                    |
     And I see no other errors
+
+  Scenario: Asserting bind :: Monad m => m a ~> (a -> m b) -> m b
+    Given I have the following code
+      """
+      $monad = new FakeMonad('foo');
+      $function = function (string $a): f\Monad {
+          return new FakeMonad(2);
+      };
+      /** @psalm-trace $value */
+      $value = $monad->bind($function);
+      """
+    When I run psalm
+    Then I see these errors
+      | Type  | Message |
+      | Trace | $value: FakeMonad<int(2)>                                                    |
+    And I see no other errors

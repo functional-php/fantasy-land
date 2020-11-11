@@ -76,12 +76,7 @@ function map(callable $function, Functor $value = null)
 {
     return null !== $value
         ? $value->map($function)
-        :
-        /**
-         * @psalm-param Functor<T> $value
-         * @param Functor $value
-         */
-        function (Functor $value) use ($function): Functor {
+        : function (Functor $value) use ($function): Functor {
             return $value->map($function);
         };
 }
@@ -95,7 +90,7 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
  * @template T
- * @template U of Chain
+ * @template U of Monad
  * @template V as Monad<T>|null
  *
  * @psalm-param callable(T): U $function
@@ -115,7 +110,7 @@ function bind(callable $function, Monad $value = null)
          * @psalm-param Monad<T> $value
          * @psalm-return U
          */
-        function (Monad $value) use ($function): Chain {
+        function (Monad $value) use ($function): Monad {
             return $value->bind($function);
         };
 }

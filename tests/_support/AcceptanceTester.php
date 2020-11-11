@@ -69,6 +69,35 @@ use FunctionalPHP\FantasyLand as f;
 
 /**
  * @template T
+ * @template-implements f\Chain<T>
+ */
+class FakeChain implements f\Chain
+{
+  /**
+   * @psalm-param T $value
+   */
+  public function __construct($value)
+  {
+  }
+
+  /** @psalm-suppress InvalidReturnType */
+  public function ap(f\Apply $b): f\Apply
+  {
+  }
+
+  /** @psalm-suppress InvalidReturnType */
+  public function bind(callable $function)
+  {
+  }
+
+  /** @psalm-suppress InvalidReturnType */
+  public function map(callable $function): f\Functor
+  {
+  }
+}
+
+/**
+ * @template T
  * @template-implements f\Monad<T>
  */
 class FakeMonad implements f\Monad
