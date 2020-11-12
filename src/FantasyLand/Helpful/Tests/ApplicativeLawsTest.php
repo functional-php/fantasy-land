@@ -7,11 +7,18 @@ namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
+use PHPUnit\Framework\TestCase;
 
-class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
+class ApplicativeLawsTest extends TestCase
 {
     /**
      * @dataProvider provideApplicativeTestData
+     * @template T
+     * @psalm-param Applicative<T> $u
+     * @psalm-param Applicative<T> $v
+     * @psalm-param Applicative<T> $w
+     * @psalm-param callable(T): T $f
+     * @psalm-param T $x
      */
     public function test_it_should_obey_applicative_laws(
         Applicative $u,
@@ -19,7 +26,7 @@ class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
         Applicative $w,
         callable $f,
         $x
-    ) {
+    ): void {
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
             Identity::of,
@@ -31,7 +38,7 @@ class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    public function provideApplicativeTestData(): array
     {
         return [
             'default' => [
@@ -44,7 +51,7 @@ class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
                 '$w' => Identity::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                '$f' => function (int $x) {
                     return $x + 400;
                 },
                 '$x' => 33

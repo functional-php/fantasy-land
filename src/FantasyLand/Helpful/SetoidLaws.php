@@ -20,7 +20,7 @@ class SetoidLaws
         Setoid $a,
         Setoid $b,
         Setoid $c
-    ) {
+    ): void {
         $assertEqual(
             equal($a, $a),
             true,

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand;
 
+/**
+ * @deprecated
+ */
 interface Pointed
 {
     /**
      * Put $value in default minimal context.
      *
-     * @param mixed $value
-     *
-     * @return mixed
+     * @psalm-suppress MissingParamType
+     * @psalm-suppress MissingReturnType
      */
     public static function of($value);
 }

@@ -15,6 +15,9 @@ class ApplicativeLaws
     /**
      * Generic test to verify if a type obey the applicative laws.
      *
+     * @template T
+     * @psalm-param callable(mixed): Applicative $pure
+     *
      * @param callable    $assertEqual Asserting function (Applicative $a1, Applicative $a2, $message)
      * @param callable    $pure        Applicative "constructor"
      * @param Applicative $u           Applicative f => f (a -> b)
@@ -31,8 +34,7 @@ class ApplicativeLaws
         Applicative $w,
         callable $f,
         $x
-    ) {
-        // identity: pure id <*> v = v
+    ): void {
         $assertEqual(
             $pure(identity)->ap($v),
             $v,

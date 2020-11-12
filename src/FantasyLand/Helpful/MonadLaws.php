@@ -11,6 +11,12 @@ class MonadLaws
     /**
      * Generic test to verify if a type obey the monad laws.
      *
+     * @template X
+     * @psalm-param callable(X): \FunctionalPHP\FantasyLand\Monad<X> $return
+     * @psalm-param callable(X): \FunctionalPHP\FantasyLand\Monad<X> $f
+     * @psalm-param callable(X): \FunctionalPHP\FantasyLand\Monad<X> $g
+     * @psalm-param X $x
+     *
      * @param callable $assertEqual Asserting function (Monad $m1, Monad $m2, $message)
      * @param callable $return      Monad "constructor"
      * @param callable $f           Monadic function
@@ -23,7 +29,7 @@ class MonadLaws
         callable $f,
         callable $g,
         $x
-    ) {
+    ): void {
         // Make reading bellow tests easier
         $m = $return($x);
 
@@ -36,9 +42,13 @@ class MonadLaws
         // associativity: (m >>= f) >>= g ≡ m >>= ( \x -> (f x >>= g) )
         $assertEqual(
             bind($g, bind($f, $m)),
-            bind(function ($x) use ($f, $g) {
-                return bind($g, $f($x));
-            }, $m),
+            bind(
+                /** @psalm-param X $x */
+                function ($x) use ($g, $f) {
+                    return bind($g, $f($x));
+                },
+                $m
+            ),
             'associativity'
         );
     }

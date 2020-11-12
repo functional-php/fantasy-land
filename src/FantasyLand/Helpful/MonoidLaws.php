@@ -23,7 +23,7 @@ class MonoidLaws
         Monoid $x,
         Monoid $y,
         Monoid $z
-    ) {
+    ): void {
         $assertEqual(
             concat($x, emptyy($x)),
             $x,
