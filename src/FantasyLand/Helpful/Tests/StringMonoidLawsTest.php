@@ -68,7 +68,7 @@ class NotAStringMonoid implements Monoid
     }
 }
 
-class MonoidLawsTest extends \PHPUnit_Framework_TestCase
+class StringMonoidLawsTest extends \PHPUnit_Framework_TestCase
 {
     use TestTrait;
 
