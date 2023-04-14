@@ -6,6 +6,10 @@ namespace FunctionalPHP\FantasyLand\Useful;
 
 use FunctionalPHP\FantasyLand;
 
+/**
+ * @template a
+ * @template-extends FantasyLand\Monad<a>
+ */
 class Identity implements FantasyLand\Monad
 {
     const of = 'FunctionalPHP\FantasyLand\Useful\Identity::of';

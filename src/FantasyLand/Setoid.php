@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand;
 
+/**
+ * @template a
+ */
 interface Setoid
 {
     /**
-     * @param Setoid|mixed $other
+     * @template b
+     *
+     * @param Setoid<b>|mixed $other
      *
      * @return bool
      */
