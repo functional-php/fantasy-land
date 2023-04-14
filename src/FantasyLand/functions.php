@@ -80,9 +80,10 @@ const map = 'FunctionalPHP\FantasyLand\map';
  * @param f               $transformation
  * @param Functor<a>|null $value
  *
- * @return b|next If a functor was provided directly to map, returns the result
- *                of applying the transformation to the value. Otherwise,
- *                returns a curried function that expects a functor.
+ * @return Functor<b>|next If a functor was provided directly to map, returns
+ *                         the result of applying the transformation to the
+ *                         value. Otherwise, returns a curried function that
+ *                         expects a functor.
  */
 function map(callable $transformation, Functor $value = null)
 {
