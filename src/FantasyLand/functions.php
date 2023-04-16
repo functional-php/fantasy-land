@@ -6,6 +6,13 @@ namespace FunctionalPHP\FantasyLand;
 
 const identity = 'FunctionalPHP\FantasyLand\identity';
 
+/**
+ * @template a
+ *
+ * @param a $a
+ *
+ * @return a
+ */
 function identity($a)
 {
     return $a;
@@ -13,6 +20,15 @@ function identity($a)
 
 const equal = 'FunctionalPHP\FantasyLand\equal';
 
+/**
+ * @template a
+ * @template b
+ *
+ * @param Setoid<a> $a
+ * @param Setoid<b> $b
+ *
+ * @return bool
+ */
 function equal(Setoid $a, Setoid $b): bool
 {
     return $a->equals($b);
@@ -20,6 +36,14 @@ function equal(Setoid $a, Setoid $b): bool
 
 const concat = 'FunctionalPHP\FantasyLand\concat';
 
+/**
+ * @template a
+ *
+ * @param Semigroup<a> $a
+ * @param Semigroup<a> $b
+ *
+ * @return Semigroup<a>
+ */
 function concat(Semigroup $a, Semigroup $b): Semigroup
 {
     return $a->concat($b);
@@ -27,6 +51,13 @@ function concat(Semigroup $a, Semigroup $b): Semigroup
 
 const emptyy = 'FunctionalPHP\FantasyLand\emptyy';
 
+/**
+ * @template a
+ *
+ * @param Monoid<a> $a
+ *
+ * @return Monoid<a>
+ */
 function emptyy(Monoid $a): Monoid
 {
     return $a::mempty();
@@ -41,10 +72,18 @@ const map = 'FunctionalPHP\FantasyLand\map';
 /**
  * map :: Functor f => (a -> b) -> f a -> f b
  *
- * @return mixed|\Closure
+ * @template a
+ * @template b
+ * @template f of callable(a): b
+ * @template next of callable(Functor<a>): Functor<b>
  *
- * @param callable $transformation
- * @param Functor  $value
+ * @param f               $transformation
+ * @param Functor<a>|null $value
+ *
+ * @return Functor<b>|next If a functor was provided directly to map, returns
+ *                         the result of applying the transformation to the
+ *                         value. Otherwise, returns a curried function that
+ *                         expects a functor.
  */
 function map(callable $transformation, Functor $value = null)
 {
@@ -61,10 +100,17 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
 /**
  * bind :: Monad m => (a -> m b) -> m a -> m b
  *
- * @return mixed|\Closure
+ * @template a
+ * @template b
+ * @template f of callable(a): Monad<b>
+ * @template next of callable(Monad<a>): Monad<b>
  *
- * @param callable $function
- * @param Monad    $value
+ * @param f             $function
+ * @param Monad<a>|null $value
+ *
+ * @return Monad<b>|next If a monad was provided directly to bind, returns the
+ *                       result. Otherwise, returns a curried function that
+ *                       expects a monad.
  */
 function bind(callable $function, Monad $value = null)
 {
@@ -78,9 +124,21 @@ function bind(callable $function, Monad $value = null)
  */
 const compose = 'FunctionalPHP\FantasyLand\compose';
 
+/**
+ * @template a
+ * @template b
+ * @template c
+ * @template f of callable(b): c
+ * @template g of callable(a): b
+ * @template composed of callable(a): c
+ *
+ * @param  f        $f
+ * @param  g        $g
+ * @return composed
+ */
 function compose(callable $f, callable $g): callable
 {
-    return function ($x) use ($f, $g) {
+    return /** @param a $x */ function ($x) use ($f, $g) {
         return $f($g($x));
     };
 }
@@ -94,10 +152,17 @@ const applicator = 'FunctionalPHP\FantasyLand\applicator';
 /**
  * applicator :: a -> (a -> b) -> b
  *
- * @param mixed    $x
- * @param callable $f
+ * @template a
+ * @template b
+ * @template f of callable(a): b
+ * @template next of callable(f): b
  *
- * @return mixed
+ * @param a      $x
+ * @param f|null $f
+ *
+ * @return b|next If a function was provided directly to applicator, returns the
+ *                result of applying the function to the value. Otherwise,
+ *                returns a curried function that expects said function.
  */
 function applicator($x, callable $f = null)
 {
@@ -138,10 +203,12 @@ const push_ = 'FunctionalPHP\FantasyLand\push_';
  * Append array with values.
  * Mutation on the road! watch out!!
  *
- * @param array $array
- * @param array $values
+ * @template a
  *
- * @return array
+ * @param array<a> $array
+ * @param array<a> $values
+ *
+ * @return array<a>
  */
 function push_(array $array, array $values): array
 {

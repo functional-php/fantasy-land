@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand;
 
+/**
+ * @template a
+ * @template-extends Apply<a>
+ */
 interface Chain extends Apply
 {
     /**
      * bind :: Monad m => (a -> m b) -> m b
      *
-     * @param callable $function
+     * @template b
+     * @template f of callable(a): Chain<b>
      *
-     * @return Chain
+     * @param f $function
+     *
+     * @return Chain<b>
      */
     public function bind(callable $function);
 }
