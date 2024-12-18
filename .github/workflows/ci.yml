@@ -1,0 +1,46 @@
+name: PHP Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [ 7.1, 7.2]
+        include:
+          - php-version: 7.1
+            env:
+              COVERAGE: yes
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Install dependencies
+        run: composer install --prefer-source
+
+      - name: Run tests
+        run: composer test
+
+      - name: Run code coverage check
+        if: ${{ matrix.env.COVERAGE == 'yes' }}
+        run: composer check-code
+
+      - name: Cache Composer
+        uses: actions/cache@v3
+        with:
+          path: ${{ runner.os }}/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
