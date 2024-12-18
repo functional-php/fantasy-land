@@ -1,12 +1,10 @@
 name: PHP Tests
 
 on:
+  pull_request:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - master
 
 jobs:
   tests:
