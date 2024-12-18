@@ -85,7 +85,7 @@ const map = 'FunctionalPHP\FantasyLand\map';
  *                         value. Otherwise, returns a curried function that
  *                         expects a functor.
  */
-function map(callable $transformation, Functor $value = null)
+function map(callable $transformation, ?Functor $value = null)
 {
     return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
@@ -112,7 +112,7 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
  *                       result. Otherwise, returns a curried function that
  *                       expects a monad.
  */
-function bind(callable $function, Monad $value = null)
+function bind(callable $function, ?Monad $value = null)
 {
     return curryN(2, function (callable $function, Monad $value) {
         return $value->bind($function);
@@ -164,7 +164,7 @@ const applicator = 'FunctionalPHP\FantasyLand\applicator';
  *                result of applying the function to the value. Otherwise,
  *                returns a curried function that expects said function.
  */
-function applicator($x, callable $f = null)
+function applicator($x, ?callable $f = null)
 {
     return curryN(2, function ($x, callable $f) {
         return $f($x);
