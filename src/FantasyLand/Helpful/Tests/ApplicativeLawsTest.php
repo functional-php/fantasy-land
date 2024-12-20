@@ -8,7 +8,7 @@ use FunctionalPHP\FantasyLand\Applicative;
 use FunctionalPHP\FantasyLand\Helpful\ApplicativeLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
+class ApplicativeLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideApplicativeTestData
@@ -31,23 +31,26 @@ class ApplicativeLawsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideApplicativeTestData()
+    /**
+     * @return array{default: array<string, mixed>}
+     */
+    public static function provideApplicativeTestData()
     {
         return [
             'default' => [
-                '$u' => Identity::of(function () {
+                'x' => 33,
+                'u' => Identity::of(function () {
                     return 1;
                 }),
-                '$v' => Identity::of(function () {
+                'v' => Identity::of(function () {
                     return 5;
                 }),
-                '$w' => Identity::of(function () {
+                'w' => Identity::of(function () {
                     return 7;
                 }),
-                '$f' => function ($x) {
+                'f' => function (int $x) {
                     return $x + 400;
-                },
-                '$x' => 33
+                }
             ],
         ];
     }

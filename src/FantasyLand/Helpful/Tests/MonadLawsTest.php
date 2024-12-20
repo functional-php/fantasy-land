@@ -7,7 +7,7 @@ namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-class MonadLawsTest extends \PHPUnit_Framework_TestCase
+class MonadLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
@@ -23,7 +23,10 @@ class MonadLawsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function provideData()
+    /**
+     * @return array{Identity: array<string, mixed>}
+     */
+    public static function provideData(): array
     {
         $addOne = function ($x) {
             return Identity::of($x + 1);
@@ -34,9 +37,9 @@ class MonadLawsTest extends \PHPUnit_Framework_TestCase
 
         return [
             'Identity' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                'x' => 10,
+                'f' => $addOne,
+                'g' => $addTwo,
             ],
         ];
     }

@@ -9,6 +9,8 @@ use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Monoid;
 use FunctionalPHP\FantasyLand\Semigroup;
+use function FunctionalPHP\FantasyLand\concat;
+use function FunctionalPHP\FantasyLand\emptyy;
 
 class StringMonoid implements Monoid
 {
@@ -39,6 +41,14 @@ class StringMonoid implements Monoid
     }
 }
 
+/**
+ * This class is not a monoid because it does not obey the monoid laws,
+ * despite implementing the Monoid interface. In particular, it does not obay
+ * the right identity and left identity laws, due to the way the `mempty` method
+ * is implemented.
+ *
+ * @implements Monoid<string>
+ */
 class NotAStringMonoid implements Monoid
 {
     /**
@@ -68,7 +78,7 @@ class NotAStringMonoid implements Monoid
     }
 }
 
-class StringMonoidLawsTest extends \PHPUnit_Framework_TestCase
+class StringMonoidLawsTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
@@ -98,11 +108,26 @@ class StringMonoidLawsTest extends \PHPUnit_Framework_TestCase
             Generator\string(),
             Generator\names()
         )->then(function (string $a, string $b, string $c) {
-            MonoidLaws::test(
-                [$this, 'assertEquals'],
-                new NotAStringMonoid($a),
-                new NotAStringMonoid($b),
-                new NotAStringMonoid($c)
+            $x = new NotAStringMonoid($a);
+            $y = new NotAStringMonoid($b);
+            $z = new NotAStringMonoid($c);
+
+            $this->assertNotEquals(
+                concat($x, emptyy($x)),
+                $x,
+                'Right identity'
+            );
+
+            $this->assertNotEquals(
+                concat(emptyy($x), $x),
+                $x,
+                'Left identity'
+            );
+
+            $this->assertEquals(
+                concat($x, concat($y, $z)),
+                concat(concat($x, $y), $z),
+                'Associativity'
             );
         });
     }

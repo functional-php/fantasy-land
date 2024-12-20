@@ -12,7 +12,7 @@ use FunctionalPHP\FantasyLand;
  */
 class Identity implements FantasyLand\Monad
 {
-    const of = 'FunctionalPHP\FantasyLand\Useful\Identity::of';
+    public const of = 'FunctionalPHP\FantasyLand\Useful\Identity::of';
 
     /**
      * @var mixed

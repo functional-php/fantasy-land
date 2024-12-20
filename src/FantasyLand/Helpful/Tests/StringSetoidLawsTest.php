@@ -32,7 +32,7 @@ class StringSetoid implements Setoid
     }
 }
 
-class StringSetoidLawsTest extends \PHPUnit_Framework_TestCase
+class StringSetoidLawsTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 

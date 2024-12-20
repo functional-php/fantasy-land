@@ -13,9 +13,11 @@
     "php": ">=7.1"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2",
-    "phpunit/phpunit": "^5",
-    "giorgiosironi/eris": "^0.9"
+    "friendsofphp/php-cs-fixer": "^3.65",
+    "phpunit/phpunit": "^10.0",
+    "giorgiosironi/eris": "^1.0",
+    "phpstan/phpstan": "^2.0",
+    "vimeo/psalm": "^5.26"
   },
   "prefer-stable": true,
   "autoload": {

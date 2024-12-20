@@ -63,7 +63,6 @@ function emptyy(Monoid $a): Monoid
     return $a::mempty();
 }
 
-
 /**
  * @var callable
  */
@@ -143,7 +142,6 @@ function compose(callable $f, callable $g): callable
     };
 }
 
-
 /**
  * @var callable
  */
@@ -170,7 +168,6 @@ function applicator($x, ?callable $f = null)
         return $f($x);
     })(...func_get_args());
 }
-
 
 /**
  * Curry function
