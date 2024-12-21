@@ -12,9 +12,11 @@ interface Pointed
     /**
      * Put $value in default minimal context.
      *
-     * @param a $value
+     * @template A
      *
-     * @return Pointed<a>
+     * @param A $value
+     *
+     * @return Pointed<A>
      */
     public static function of($value);
 }

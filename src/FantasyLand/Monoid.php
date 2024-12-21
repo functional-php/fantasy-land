@@ -6,7 +6,7 @@ namespace FunctionalPHP\FantasyLand;
 
 /**
  * @template a
- * @template-extends Semigroup<a>
+ * @extends Semigroup<a>
  */
 interface Monoid extends Semigroup
 {

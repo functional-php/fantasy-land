@@ -11,15 +11,38 @@ class MonadLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
+     *
+     * @template a
+     * @template b
+     * @template c
+     *
+     * @param a                        $x
+     * @param callable(a): Identity<b> $f
+     * @param callable(b): Identity<c> $g
      */
-    public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_identity_monad_obeys_the_laws($x, $f, $g): void
     {
+        // This is a workaround to allow static analysis to infer the types of
+        // the `pure` function.
+        $pure =
+            /**
+             * @param a $x
+             * @return Identity<a>
+             */
+            function ($x) {
+                return Identity::of($x);
+            };
+
         MonadLaws::test(
             [$this, 'assertEquals'],
-            Identity::of,
+            $x,
+            $pure,
+            // PHPStan seems to have lost track of `a` here, and is unable to
+            // infer that `$f` should be callable(a): Identity<b>. It seems to
+            // have inferred that `$f` is callable(mixed): Identity<b>.
+            // @phpstan-ignore argument.type
             $f,
-            $g,
-            $x
+            $g
         );
     }
 
@@ -28,10 +51,10 @@ class MonadLawsTest extends \PHPUnit\Framework\TestCase
      */
     public static function provideData(): array
     {
-        $addOne = function ($x) {
+        $addOne = function (int $x) {
             return Identity::of($x + 1);
         };
-        $addTwo = function ($x) {
+        $addTwo = function (int $x) {
             return Identity::of($x + 2);
         };
 

@@ -12,7 +12,7 @@ interface Setoid
     /**
      * @template b
      *
-     * @param Setoid<b>|mixed $other
+     * @param Setoid<b> $other
      *
      * @return bool
      */

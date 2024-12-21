@@ -6,7 +6,7 @@ namespace FunctionalPHP\FantasyLand;
 
 /**
  * @template a
- * @template-extends Apply<a>
+ * @extends Apply<a>
  */
 interface Chain extends Apply
 {
@@ -14,9 +14,8 @@ interface Chain extends Apply
      * bind :: Monad m => (a -> m b) -> m b
      *
      * @template b
-     * @template f of callable(a): Chain<b>
      *
-     * @param f $function
+     * @param callable(a): Chain<b> $function
      *
      * @return Chain<b>
      */

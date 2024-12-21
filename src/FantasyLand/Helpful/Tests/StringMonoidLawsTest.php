@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 
-use Eris\Generator;
+use Eris\Generators;
 use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\MonoidLaws;
 use FunctionalPHP\FantasyLand\Monoid;
@@ -12,6 +12,11 @@ use FunctionalPHP\FantasyLand\Semigroup;
 use function FunctionalPHP\FantasyLand\concat;
 use function FunctionalPHP\FantasyLand\emptyy;
 
+/**
+ * This class is a monoid because it obeys the monoid laws.
+ *
+ * @implements Monoid<string>
+ */
 class StringMonoid implements Monoid
 {
     /**
@@ -26,6 +31,7 @@ class StringMonoid implements Monoid
 
     /**
      * @inheritdoc
+     * @return StringMonoid
      */
     public static function mempty()
     {
@@ -34,6 +40,8 @@ class StringMonoid implements Monoid
 
     /**
      * @inheritdoc
+     * @param  StringMonoid $value
+     * @return StringMonoid
      */
     public function concat(Semigroup $value): Semigroup
     {
@@ -63,6 +71,7 @@ class NotAStringMonoid implements Monoid
 
     /**
      * @inheritdoc
+     * @return NotAStringMonoid
      */
     public static function mempty()
     {
@@ -71,6 +80,8 @@ class NotAStringMonoid implements Monoid
 
     /**
      * @inheritdoc
+     * @param  NotAStringMonoid $value
+     * @return NotAStringMonoid
      */
     public function concat(Semigroup $value): Semigroup
     {
@@ -82,12 +93,12 @@ class StringMonoidLawsTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
-    public function test_it_should_obay_monoid_laws()
+    public function test_it_should_obay_monoid_laws(): void
     {
         $this->forAll(
-            Generator\char(),
-            Generator\string(),
-            Generator\names()
+            Generators::char(),
+            Generators::string(),
+            Generators::names()
         )->then(function (string $a, string $b, string $c) {
             MonoidLaws::test(
                 [$this, 'assertEquals'],
@@ -98,15 +109,12 @@ class StringMonoidLawsTest extends \PHPUnit\Framework\TestCase
         });
     }
 
-    /**
-     * @expectedException \DomainException
-     */
-    public function test_it_should_fail_monoid_laws()
+    public function test_it_should_fail_monoid_laws(): void
     {
         $this->forAll(
-            Generator\char(),
-            Generator\string(),
-            Generator\names()
+            Generators::char(),
+            Generators::string(),
+            Generators::names()
         )->then(function (string $a, string $b, string $c) {
             $x = new NotAStringMonoid($a);
             $y = new NotAStringMonoid($b);

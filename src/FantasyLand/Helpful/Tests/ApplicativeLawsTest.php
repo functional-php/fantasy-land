@@ -12,22 +12,44 @@ class ApplicativeLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideApplicativeTestData
+     *
+     * @template a
+     * @template b
+     * @template c
+     * @template d
+     *
+     * @param a                           $x
+     * @param Applicative<callable(a): b> $u
+     * @param Applicative<callable(b): c> $v
+     * @param Applicative<callable(c): d> $w
+     * @param callable(a): b              $f
      */
     public function test_it_should_obey_applicative_laws(
+        $x,
         Applicative $u,
         Applicative $v,
         Applicative $w,
-        callable $f,
-        $x
-    ) {
+        callable $f
+    ): void {
+        // This is a workaround to allow static analysis to infer the types of
+        // the `pure` function.
+        $pure =
+            /**
+             * @param a $x
+             * @return Identity<a>
+             */
+            function ($x) {
+                return Identity::of($x);
+            };
+
         ApplicativeLaws::test(
             [$this, 'assertEquals'],
-            Identity::of,
+            $x,
+            $pure,
             $u,
             $v,
             $w,
-            $f,
-            $x
+            $f
         );
     }
 

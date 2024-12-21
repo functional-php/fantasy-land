@@ -73,19 +73,18 @@ const map = 'FunctionalPHP\FantasyLand\map';
  *
  * @template a
  * @template b
- * @template f of callable(a): b
- * @template next of callable(Functor<a>): Functor<b>
  *
- * @param f               $transformation
+ * @param callable(a): b  $transformation
  * @param Functor<a>|null $value
  *
- * @return Functor<b>|next If a functor was provided directly to map, returns
- *                         the result of applying the transformation to the
- *                         value. Otherwise, returns a curried function that
- *                         expects a functor.
+ * @return Functor<b>|(callable(Functor<a>): Functor<b>)
+ *                                                       If a functor was provided directly to map, returns the result of
+ *                                                       applying the transformation to the value. Otherwise, returns a curried
+ *                                                       function that expects a functor.
  */
 function map(callable $transformation, ?Functor $value = null)
 {
+    /** @var Functor<b>|(callable(Functor<a>): Functor<b>) */
     return curryN(2, function (callable $transformation, Functor $value) {
         return $value->map($transformation);
     })(...func_get_args());
@@ -101,19 +100,22 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
  *
  * @template a
  * @template b
- * @template f of callable(a): Monad<b>
- * @template next of callable(Monad<a>): Monad<b>
  *
- * @param f             $function
- * @param Monad<a>|null $value
+ * @param callable(a): Monad<b> $function
+ * @param Monad<a>|null         $value
  *
- * @return Monad<b>|next If a monad was provided directly to bind, returns the
- *                       result. Otherwise, returns a curried function that
- *                       expects a monad.
+ * @return Monad<b>|(callable(Monad<a>): Monad<b>)
+ *                                                 If a monad was provided directly to bind, returns the result. Otherwise,
+ *                                                 returns a curried function that expects a monad.
  */
 function bind(callable $function, ?Monad $value = null)
 {
+    /** @var Monad<b>|(callable(Monad<a>): Monad<b>) */
     return curryN(2, function (callable $function, Monad $value) {
+        /**
+         * @var callable(a): Monad<b> $function
+         * @var Monad<a>              $value
+         */
         return $value->bind($function);
     })(...func_get_args());
 }
@@ -127,13 +129,10 @@ const compose = 'FunctionalPHP\FantasyLand\compose';
  * @template a
  * @template b
  * @template c
- * @template f of callable(b): c
- * @template g of callable(a): b
- * @template composed of callable(a): c
  *
- * @param  f        $f
- * @param  g        $g
- * @return composed
+ * @param  callable(b): c $f
+ * @param  callable(a): b $g
+ * @return callable(a): c
  */
 function compose(callable $f, callable $g): callable
 {
@@ -152,15 +151,14 @@ const applicator = 'FunctionalPHP\FantasyLand\applicator';
  *
  * @template a
  * @template b
- * @template f of callable(a): b
- * @template next of callable(f): b
  *
- * @param a      $x
- * @param f|null $f
+ * @param a                   $x
+ * @param callable(a): b|null $f
  *
- * @return b|next If a function was provided directly to applicator, returns the
- *                result of applying the function to the value. Otherwise,
- *                returns a curried function that expects said function.
+ * @return b|(callable(callable(a): b): b)
+ *                                         If a function was provided directly to applicator, returns the result of
+ *                                         applying the function to the value. Otherwise, returns a curried
+ *                                         function that expects said function.
  */
 function applicator($x, ?callable $f = null)
 {
@@ -174,7 +172,7 @@ function applicator($x, ?callable $f = null)
  *
  * @param int      $numberOfArguments
  * @param callable $function
- * @param array    $args
+ * @param mixed[]  $args
  *
  * @return callable
  */

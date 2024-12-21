@@ -12,12 +12,20 @@ class FunctorLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideFunctorTestData
+     *
+     * @template a
+     * @template b
+     * @template c
+     *
+     * @param callable(b): c $f
+     * @param callable(a): b $g
+     * @param Functor<a>     $x
      */
     public function test_it_should_obey_functor_laws(
         callable $f,
         callable $g,
         Functor $x
-    ) {
+    ): void {
         FunctorLaws::test(
             [$this, 'assertEquals'],
             $f,
