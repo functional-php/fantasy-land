@@ -13,10 +13,9 @@ interface Foldable
      * reduce :: (b -> a -> b) -> b -> b
      *
      * @template b
-     * @template f of callable(b, a): b
      *
-     * @param f $function    Binary function ($accumulator, $value)
-     * @param b $accumulator Value to witch reduce
+     * @param callable(b, a): b $function    Binary function ($accumulator, $value)
+     * @param b                 $accumulator Value to witch reduce
      *
      * @return b Same type as $accumulator
      */

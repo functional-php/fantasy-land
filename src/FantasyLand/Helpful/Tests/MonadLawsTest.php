@@ -7,36 +7,58 @@ namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 use FunctionalPHP\FantasyLand\Helpful\MonadLaws;
 use FunctionalPHP\FantasyLand\Useful\Identity;
 
-class MonadLawsTest extends \PHPUnit_Framework_TestCase
+class MonadLawsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideData
+     *
+     * @template a
+     * @template b
+     * @template c
+     *
+     * @param a                        $x
+     * @param callable(a): Identity<b> $f
+     * @param callable(b): Identity<c> $g
      */
-    public function test_if_identity_monad_obeys_the_laws($f, $g, $x)
+    public function test_if_identity_monad_obeys_the_laws($x, $f, $g): void
     {
+        // This is a workaround to allow static analysis to infer the types of
+        // the `pure` function.
+        $pure =
+            /**
+             * @param  a           $x
+             * @return Identity<a>
+             */
+            function ($x) {
+                return Identity::of($x);
+            };
+
         MonadLaws::test(
             [$this, 'assertEquals'],
-            Identity::of,
+            $x,
+            $pure,
             $f,
-            $g,
-            $x
+            $g
         );
     }
 
-    public function provideData()
+    /**
+     * @return array{Identity: array<string, mixed>}
+     */
+    public static function provideData(): array
     {
-        $addOne = function ($x) {
+        $addOne = function (int $x): Identity {
             return Identity::of($x + 1);
         };
-        $addTwo = function ($x) {
+        $addTwo = function (int $x): Identity {
             return Identity::of($x + 2);
         };
 
         return [
             'Identity' => [
-                '$f' => $addOne,
-                '$g' => $addTwo,
-                '$x' => 10,
+                'x' => 10,
+                'f' => $addOne,
+                'g' => $addTwo,
             ],
         ];
     }

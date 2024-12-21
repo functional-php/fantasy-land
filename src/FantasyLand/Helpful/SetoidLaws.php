@@ -10,17 +10,21 @@ use function FunctionalPHP\FantasyLand\equal;
 class SetoidLaws
 {
     /**
-     * @param callable $assertEqual
-     * @param Setoid   $a
-     * @param Setoid   $b
-     * @param Setoid   $c
+     * @template a
+     * @template b
+     * @template c
+     *
+     * @param callable  $assertEqual
+     * @param Setoid<a> $a
+     * @param Setoid<b> $b
+     * @param Setoid<c> $c
      */
     public static function test(
         callable $assertEqual,
         Setoid $a,
         Setoid $b,
         Setoid $c
-    ) {
+    ): void {
         $assertEqual(
             equal($a, $a),
             true,

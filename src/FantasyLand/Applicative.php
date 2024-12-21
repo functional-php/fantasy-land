@@ -6,8 +6,8 @@ namespace FunctionalPHP\FantasyLand;
 
 /**
  * @template a
- * @template-extends Apply<a>
- * @template-extends Pointed<a>
+ * @extends Apply<a>
+ * @extends Pointed<a>
  */
 interface Applicative extends
     Apply,

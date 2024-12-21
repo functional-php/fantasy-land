@@ -15,23 +15,28 @@ class ApplicativeLaws
     /**
      * Generic test to verify if a type obey the applicative laws.
      *
-     * @param callable    $assertEqual Asserting function (Applicative $a1, Applicative $a2, $message)
-     * @param callable    $pure        Applicative "constructor"
-     * @param Applicative $u           Applicative f => f (a -> b)
-     * @param Applicative $v           Applicative f => f (a -> b)
-     * @param Applicative $w           Applicative f => f (a -> b)
-     * @param callable    $f           (a -> b)
-     * @param mixed       $x           Value to put into a applicative
+     * @template a
+     * @template b
+     * @template c
+     * @template d
+     *
+     * @param callable                            $assertEqual Asserting function (Applicative $a1, Applicative $a2, $message)
+     * @param a                                   $x           Value to put into a applicative
+     * @param callable(mixed): Applicative<mixed> $pure        Applicative "constructor"
+     * @param Applicative<callable(a): b>         $u           Applicative f => f (a -> b)
+     * @param Applicative<callable(b): c>         $v           Applicative f => f (a -> b)
+     * @param Applicative<callable(c): d>         $w           Applicative f => f (a -> b)
+     * @param callable(a): b                      $f           (a -> b)
      */
     public static function test(
         callable $assertEqual,
+        $x,
         callable $pure,
         Applicative $u,
         Applicative $v,
         Applicative $w,
-        callable $f,
-        $x
-    ) {
+        callable $f
+    ): void {
         // identity: pure id <*> v = v
         $assertEqual(
             $pure(identity)->ap($v),
@@ -47,9 +52,11 @@ class ApplicativeLaws
         );
 
         // interchange: u <*> pure x = pure ($ x) <*> u
+        /** @var callable(callable(a): b): b $ap */
+        $applicatorX = applicator($x);
         $assertEqual(
             $u->ap($pure($x)),
-            $pure(applicator($x))->ap($u),
+            $pure($applicatorX)->ap($u),
             'interchange'
         );
 

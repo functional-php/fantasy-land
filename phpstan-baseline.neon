@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Unable to resolve the template type b in call to function FunctionalPHP\\FantasyLand\\applicator$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/FantasyLand/Helpful/ApplicativeLaws.php
+
+		-
+			message: '#^Variable \$ap in PHPDoc tag @var does not match assigned variable \$applicatorX\.$#'
+			identifier: varTag.differentVariable
+			count: 1
+			path: src/FantasyLand/Helpful/ApplicativeLaws.php
+
+		-
+			message: '#^Parameter \#1 \$f of function FunctionalPHP\\FantasyLand\\compose expects callable\(FunctionalPHP\\FantasyLand\\Functor\<b\>\)\: FunctionalPHP\\FantasyLand\\Functor\<c\>, \(callable\(FunctionalPHP\\FantasyLand\\Functor\<b\>\)\: FunctionalPHP\\FantasyLand\\Functor\<c\>\)\|FunctionalPHP\\FantasyLand\\Functor\<c\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FantasyLand/Helpful/FunctorLaws.php
+
+		-
+			message: '#^Parameter \#2 \$g of function FunctionalPHP\\FantasyLand\\compose expects callable\(FunctionalPHP\\FantasyLand\\Functor\<a\>\)\: FunctionalPHP\\FantasyLand\\Functor\<b\>, \(callable\(FunctionalPHP\\FantasyLand\\Functor\<a\>\)\: FunctionalPHP\\FantasyLand\\Functor\<b\>\)\|FunctionalPHP\\FantasyLand\\Functor\<b\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FantasyLand/Helpful/FunctorLaws.php
+
+		-
+			message: '#^Parameter \#4 \$f of static method FunctionalPHP\\FantasyLand\\Helpful\\MonadLaws\:\:test\(\) expects callable\(mixed\)\: FunctionalPHP\\FantasyLand\\Monad\<b\>, callable\(a\)\: FunctionalPHP\\FantasyLand\\Useful\\Identity\<b\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FantasyLand/Helpful/Tests/MonadLawsTest.php

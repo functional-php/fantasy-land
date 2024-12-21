@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<psalm
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    cacheDirectory=".cache/psalm"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
+    errorBaseline="psalm.baseline.xml"
+>
+    <projectFiles>
+        <directory name="src" />
+        <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <!-- This is a stylistic preference from Psalm that we don't adhere to -->
+        <ParamNameMismatch errorLevel="suppress" />
+        <!--
+            This issue _may_ point to a valid issue, but more likely it's a
+            mismatch between what is possible to express in PHPDoc and what
+            the actual expectation is.
+
+            For example, if you have a `Maybe` monad, it will implement the
+            `bind` method with a more specific type than the `Monad` interface;
+            it will be `Maybe` instead of `Monad`. This is as expected, but
+            Psalm will complain about it because Psalm is assuming that a class
+            which implements an interface should always be subsitutable for any
+            other class which implements the same interface.
+
+            Ideally, that should be solvable with static parameter types and
+            static return types, but that doesn't seem to work as expected in
+            Psalm.
+        -->
+        <MoreSpecificImplementedParamType errorLevel="info" />
+        <!--
+            This issue is usually to do with extending a PHPUnit test class, so
+            usually a false positive. We should still report it, but at a lower
+            level so that we know to investigate all such instances.
+        -->
+        <PropertyNotSetInConstructor errorLevel="info" />
+        <!-- Psalm is complaining about being unable to load an internal PHPUnit class -->
+        <MissingDependency errorLevel="info" />
+    </issueHandlers>
+</psalm>

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace FunctionalPHP\FantasyLand\Helpful\Tests;
 
-use Eris\Generator;
+use Eris\Generators;
 use Eris\TestTrait;
 use FunctionalPHP\FantasyLand\Helpful\SetoidLaws;
 use FunctionalPHP\FantasyLand\Setoid;
 
+/**
+ * @implements Setoid<string>
+ */
 class StringSetoid implements Setoid
 {
     /**
@@ -32,16 +35,16 @@ class StringSetoid implements Setoid
     }
 }
 
-class StringSetoidLawsTest extends \PHPUnit_Framework_TestCase
+class StringSetoidLawsTest extends \PHPUnit\Framework\TestCase
 {
     use TestTrait;
 
-    public function test_it_should_obay_setoid_laws()
+    public function test_it_should_obay_setoid_laws(): void
     {
         $this->forAll(
-            Generator\char(),
-            Generator\string(),
-            Generator\names()
+            Generators::char(),
+            Generators::string(),
+            Generators::names()
         )->then(function (string $a, string $b, string $c) {
             SetoidLaws::test(
                 [$this, 'assertEquals'],

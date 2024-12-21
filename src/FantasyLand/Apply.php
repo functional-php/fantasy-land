@@ -6,7 +6,7 @@ namespace FunctionalPHP\FantasyLand;
 
 /**
  * @template a
- * @template-extends Functor<a>
+ * @extends Functor<a>
  */
 interface Apply extends Functor
 {

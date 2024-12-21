@@ -13,17 +13,19 @@ class MonoidLaws
     /**
      * Generic test to verify if a type obey the monodic laws.
      *
-     * @param callable $assertEqual Asserting function (Monoid $m1, Monoid $m2, $message)
-     * @param Monoid   $x
-     * @param Monoid   $y
-     * @param Monoid   $z
+     * @template a
+     *
+     * @param callable  $assertEqual Asserting function (Monoid $m1, Monoid $m2, $message)
+     * @param Monoid<a> $x
+     * @param Monoid<a> $y
+     * @param Monoid<a> $z
      */
     public static function test(
         callable $assertEqual,
         Monoid $x,
         Monoid $y,
         Monoid $z
-    ) {
+    ): void {
         $assertEqual(
             concat($x, emptyy($x)),
             $x,

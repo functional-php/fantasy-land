@@ -13,11 +13,10 @@ interface Functor
      * map :: Functor f => (a -> b) -> f b
      *
      * @template b
-     * @template f of callable(a): b
      *
-     * @param f $function
+     * @param callable(a): b $function
      *
      * @return Functor<b>
      */
-    public function map(callable $function): Functor;
+    public function map(callable $function);
 }
