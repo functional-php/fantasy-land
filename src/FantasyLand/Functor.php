@@ -18,5 +18,5 @@ interface Functor
      *
      * @return Functor<b>
      */
-    public function map(callable $function): Functor;
+    public function map(callable $function);
 }

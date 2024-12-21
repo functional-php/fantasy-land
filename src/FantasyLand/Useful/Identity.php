@@ -22,7 +22,7 @@ class Identity implements FantasyLand\Monad
     /**
      * @inheritdoc
      * @template A
-     * @param A $value
+     * @param  A           $value
      * @return Identity<A>
      */
     public static function of($value)
@@ -46,16 +46,17 @@ class Identity implements FantasyLand\Monad
      */
     public function map(callable $transformation): Identity
     {
-        /**
-         * This is a workaround so that static analysis tools can understand
-         * the type signature of the callables.
-         *
-         * @param  a           $x
-         * @return Identity<b>
-         */
-        $fn = static function ($x) use ($transformation) {
-            return Identity::of($transformation($x));
-        };
+        $fn =
+            /**
+             * This is a workaround so that static analysis tools can understand
+             * the type signature of the callables.
+             *
+             * @param  a           $x
+             * @return Identity<b>
+             */
+            static function ($x) use ($transformation): Identity {
+                return Identity::of($transformation($x));
+            };
 
         /** @var Identity<b> */
         return $this->bind($fn);

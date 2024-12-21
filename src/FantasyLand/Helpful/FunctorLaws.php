@@ -30,7 +30,6 @@ class FunctorLaws
     ): void {
         $identity =
             /**
-             * @template a
              * @param  a $x
              * @return a
              */
@@ -48,10 +47,6 @@ class FunctorLaws
         // composition: fmap (f . g)  ==  fmap f . fmap g
         $assertEqual(
             map(compose($f, $g), $x),
-            // PHPStan has no idea how currying works and it's not able to infer
-            // the types of the singly-applied map() calls. As such, we'll
-            // suppress the error here.
-            // @phpstan-ignore argument.type,argument.type
             compose(map($f), map($g))($x),
             'composition'
         );

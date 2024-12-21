@@ -26,7 +26,7 @@ class MonadLawsTest extends \PHPUnit\Framework\TestCase
         // the `pure` function.
         $pure =
             /**
-             * @param a $x
+             * @param  a           $x
              * @return Identity<a>
              */
             function ($x) {
@@ -37,10 +37,6 @@ class MonadLawsTest extends \PHPUnit\Framework\TestCase
             [$this, 'assertEquals'],
             $x,
             $pure,
-            // PHPStan seems to have lost track of `a` here, and is unable to
-            // infer that `$f` should be callable(a): Identity<b>. It seems to
-            // have inferred that `$f` is callable(mixed): Identity<b>.
-            // @phpstan-ignore argument.type
             $f,
             $g
         );
@@ -51,10 +47,10 @@ class MonadLawsTest extends \PHPUnit\Framework\TestCase
      */
     public static function provideData(): array
     {
-        $addOne = function (int $x) {
+        $addOne = function (int $x): Identity {
             return Identity::of($x + 1);
         };
-        $addTwo = function (int $x) {
+        $addTwo = function (int $x): Identity {
             return Identity::of($x + 2);
         };
 

@@ -32,6 +32,7 @@
     "test": "phpunit --no-coverage",
     "fix-code": "php-cs-fixer fix --allow-risky=yes",
     "check-code": "php-cs-fixer fix --verbose --diff --dry-run --allow-risky=yes",
-    "static-analysis": "phpstan analyse"
+    "phpstan": "phpstan analyse",
+    "psalm": "psalm"
   }
 }

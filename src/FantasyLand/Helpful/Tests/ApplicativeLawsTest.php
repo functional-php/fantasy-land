@@ -35,7 +35,7 @@ class ApplicativeLawsTest extends \PHPUnit\Framework\TestCase
         // the `pure` function.
         $pure =
             /**
-             * @param a $x
+             * @param  a           $x
              * @return Identity<a>
              */
             function ($x) {

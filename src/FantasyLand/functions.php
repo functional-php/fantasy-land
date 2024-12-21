@@ -77,10 +77,9 @@ const map = 'FunctionalPHP\FantasyLand\map';
  * @param callable(a): b  $transformation
  * @param Functor<a>|null $value
  *
- * @return Functor<b>|(callable(Functor<a>): Functor<b>)
- *                                                       If a functor was provided directly to map, returns the result of
- *                                                       applying the transformation to the value. Otherwise, returns a curried
- *                                                       function that expects a functor.
+ * @return Functor<b>|(callable(Functor<a>): Functor<b>) If a functor was provided directly to map, returns the result
+ *                                                       of applying the transformation to the value. Otherwise, returns
+ *                                                       a curried function that expects a functor.
  */
 function map(callable $transformation, ?Functor $value = null)
 {
@@ -104,18 +103,18 @@ const bind = 'FunctionalPHP\FantasyLand\bind';
  * @param callable(a): Monad<b> $function
  * @param Monad<a>|null         $value
  *
- * @return Monad<b>|(callable(Monad<a>): Monad<b>)
- *                                                 If a monad was provided directly to bind, returns the result. Otherwise,
- *                                                 returns a curried function that expects a monad.
+ * @return Monad<b>|(callable(Monad<a>): Monad<b>) If a monad was provided directly to bind, returns the result.
+ *                                                 Otherwise, returns a curried function that expects a monad.
  */
 function bind(callable $function, ?Monad $value = null)
 {
     /** @var Monad<b>|(callable(Monad<a>): Monad<b>) */
-    return curryN(2, function (callable $function, Monad $value) {
+    return curryN(2, function (callable $function, Monad $value): Monad {
         /**
          * @var callable(a): Monad<b> $function
          * @var Monad<a>              $value
          */
+        /** @var Monad<b> */
         return $value->bind($function);
     })(...func_get_args());
 }
@@ -155,16 +154,23 @@ const applicator = 'FunctionalPHP\FantasyLand\applicator';
  * @param a                   $x
  * @param callable(a): b|null $f
  *
- * @return b|(callable(callable(a): b): b)
- *                                         If a function was provided directly to applicator, returns the result of
- *                                         applying the function to the value. Otherwise, returns a curried
- *                                         function that expects said function.
+ * @return b|(callable(callable(a): b): b) If a function was provided directly to applicator, returns the result of
+ *                                         applying the function to the value. Otherwise, returns a curried function
+ *                                         that expects said function.
  */
 function applicator($x, ?callable $f = null)
 {
-    return curryN(2, function ($x, callable $f) {
-        return $f($x);
-    })(...func_get_args());
+    return curryN(
+        2,
+        /**
+         * @param  a              $x
+         * @param  callable(a): b $f
+         * @return b
+         */
+        function ($x, callable $f) {
+            return $f($x);
+        }
+    )(...func_get_args());
 }
 
 /**
@@ -178,13 +184,19 @@ function applicator($x, ?callable $f = null)
  */
 function curryN($numberOfArguments, callable $function, array $args = [])
 {
-    return function (...$argsNext) use ($numberOfArguments, $function, $args) {
-        $argsLeft = $numberOfArguments - func_num_args();
+    return
+        /**
+         * @param mixed ...$argsNext
+         *
+         * @return mixed|callable
+         */
+        function (...$argsNext) use ($numberOfArguments, $function, $args) {
+            $argsLeft = $numberOfArguments - func_num_args();
 
-        return $argsLeft <= 0
-            ? $function(...push_($args, $argsNext))
-            : curryN($argsLeft, $function, push_($args, $argsNext));
-    };
+            return $argsLeft <= 0
+                ? $function(...push_($args, $argsNext))
+                : curryN($argsLeft, $function, push_($args, $argsNext));
+        };
 }
 
 /**

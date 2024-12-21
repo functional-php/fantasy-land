@@ -52,15 +52,7 @@ class ApplicativeLaws
         );
 
         // interchange: u <*> pure x = pure ($ x) <*> u
-        /**
-         * @var callable(callable(a): b): b $ap
-         *
-         * PHPStan has no idea how currying works and it's not able to infer
-         * the types of the singly-applied applicator() calls. As such, we'll
-         * suppress the errors here.
-         *
-         * @phpstan-ignore argument.templateType,varTag.differentVariable
-         */
+        /** @var callable(callable(a): b): b $ap */
         $applicatorX = applicator($x);
         $assertEqual(
             $u->ap($pure($x)),
